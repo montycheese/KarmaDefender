@@ -2,11 +2,13 @@ package cs1302.fxgame;
 
 import com.michaelcotterell.game.Game;
 import com.michaelcotterell.game.GameTime;
+import com.michaelcotterell.game.util.TimeSpan;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import java.lang.System;
 
 public class TestGame extends Game {
 
@@ -14,6 +16,12 @@ public class TestGame extends Game {
     private Rectangle bg = new Rectangle(0, 0, 640, 480) {{ 
          setFill(Color.BLACK); 
     }};
+    
+    private Rectangle fg = new Rectangle(0,0, 100, 100) {{  
+    	setFill(Color.WHITESMOKE);
+    	setTranslateY(300);
+    	}
+    };
 
     // some text to display the time
     private Text text = new Text() {{
@@ -29,13 +37,15 @@ public class TestGame extends Game {
      */
     public TestGame(Stage stage) {
         super(stage, "TestGame", 60, 640, 480);
-        getSceneNodes().getChildren().addAll(bg, text);
+        getSceneNodes().getChildren().addAll(bg, text, fg);
     } // TestGame
 
     @Override
     public void update(Game game, GameTime gameTime) {
-        text.setText("The time is " + gameTime.getTotalGameTime());
-
+        text.setText("The time is " + gameTime.getTotalGameTime() + " " +
+        				System.nanoTime());
+        if (game.getKeyManager().isKeyPressed(KeyCode.DOWN) && text.getBoundsInParent().intersects(fg.getBoundsInParent()))
+        	return; // if two objects intersect
         if (game.getKeyManager().isKeyPressed(KeyCode.UP) && text.getBoundsInParent().getMinY()-4 <=0); // do nothing
         else if (game.getKeyManager().isKeyPressed(KeyCode.UP)) text.setTranslateY(text.getTranslateY() - 4);
         

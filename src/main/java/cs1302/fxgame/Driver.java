@@ -1,4 +1,3 @@
-
 package cs1302.fxgame;
 
 import com.michaelcotterell.game.Game;
@@ -9,7 +8,8 @@ public class Driver extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception { 
-        Game game = new TestGame(primaryStage);
+    	//Game game = new TestGame(primaryStage);
+    	Game game = new SpaceInvaders(primaryStage);
         primaryStage.setTitle(game.getTitle());
         primaryStage.setScene(game.getScene());
         primaryStage.show();
