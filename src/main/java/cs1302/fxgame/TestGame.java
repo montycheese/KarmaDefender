@@ -20,6 +20,7 @@ public class TestGame extends Game {
          setTranslateX(10);
          setTranslateY(20);
          setFill(Color.YELLOWGREEN);
+         setUnderline(true);
     }};
 
     /**
@@ -34,10 +35,19 @@ public class TestGame extends Game {
     @Override
     public void update(Game game, GameTime gameTime) {
         text.setText("The time is " + gameTime.getTotalGameTime());
-        if (game.getKeyManager().isKeyPressed(KeyCode.UP)) text.setTranslateY(text.getTranslateY() - 4);
-        if (game.getKeyManager().isKeyPressed(KeyCode.DOWN)) text.setTranslateY(text.getTranslateY() + 4);
-        if (game.getKeyManager().isKeyPressed(KeyCode.LEFT)) text.setTranslateX(text.getTranslateX() - 4);
-        if (game.getKeyManager().isKeyPressed(KeyCode.RIGHT)) text.setTranslateX(text.getTranslateX() + 4);
+
+        if (game.getKeyManager().isKeyPressed(KeyCode.UP) && text.getBoundsInParent().getMinY()-4 <=0); // do nothing
+        else if (game.getKeyManager().isKeyPressed(KeyCode.UP)) text.setTranslateY(text.getTranslateY() - 4);
+        
+        if (game.getKeyManager().isKeyPressed(KeyCode.DOWN) && text.getBoundsInParent().getMaxY()+4 >= 480);
+        else if (game.getKeyManager().isKeyPressed(KeyCode.DOWN)) text.setTranslateY(text.getTranslateY() + 4);
+        
+        if (game.getKeyManager().isKeyPressed(KeyCode.LEFT) && text.getBoundsInParent().getMinX() - 4 <= 0);
+        else if (game.getKeyManager().isKeyPressed(KeyCode.LEFT)) text.setTranslateX(text.getTranslateX() - 4);
+        
+        if (game.getKeyManager().isKeyPressed(KeyCode.RIGHT) && text.getBoundsInParent().getMaxX() + 4 >= 640);
+        else if (game.getKeyManager().isKeyPressed(KeyCode.RIGHT)) text.setTranslateX(text.getTranslateX() + 4);
+        //System.out.println(text.getBoundsInParent());
     } // update
 
 } // TestGame
