@@ -18,6 +18,7 @@ public class EnemySprite extends Sprite{
 	public int rank = 1;
 	private int velocity = 1;
 	private int xDir = 1;
+	private int distanceTraveled = 0;
 	//tracks whether or not the ship is the bottommost in its respective column, allowing it to shoot
 	private boolean isAtRoot = false; 
 	private boolean state = true;
@@ -30,11 +31,18 @@ public class EnemySprite extends Sprite{
 	@Override
 	public void update(Game game, GameTime gameTime){
 		int dx = velocity * xDir;
-		/*if(this.getBoundsInParent().getMinX() + dx >= game.getSceneBounds().getMinX + 20 &&
-			this.getBoundsInParent().getMaxX() + dx >= game.getSceneBounds().getMaxX - 20	)*/
-		//STuck here need to find a way to make all ships change direction once it gets to wall
+		if(this.distanceTraveled >= Math.round(game.getSceneBounds().getWidth()/4)){
+			int dy = velocity;
+			changeXDirection();
+			setTranslateY(translateYProperty().add(velocity).get());
+			this.distanceTraveled = 0;
+		}
+		else{
 			setTranslateX(translateXProperty().add(dx).get());
+			this.distanceTraveled += Math.abs(dx);
+		}
 	}
+	@Override
 	public boolean getState(){
 		return this.state;
 	}
@@ -42,6 +50,9 @@ public class EnemySprite extends Sprite{
 		this.nextHighest = e;
 	}
 
+	public void changeXDirection(){
+		this.xDir *= -1;
+	}
 	public void setAtRoot(){
 		this.isAtRoot = true;
 	}

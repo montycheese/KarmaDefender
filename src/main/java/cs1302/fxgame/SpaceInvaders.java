@@ -20,6 +20,7 @@ import java.lang.System;
 public class SpaceInvaders extends Game{
 	
 	private ArrayList<Sprite> sprites = new ArrayList<Sprite>();
+	/*private ArrayList<Fire> shotsFired = new ArrayList<Fire>();*/
 	private long timeLastShotFired;
 
 	// rectangle to hold the background
@@ -45,9 +46,6 @@ public class SpaceInvaders extends Game{
     		sprite.update(game, gameTime);
     		if (!sprite.getState()) temp.add(sprite);
     	}
-    	//Using a temp array to store which sprites to remove to avoid a concurrent
-    	//modification exception
-    	for(Sprite sprite: temp) removeSprite(sprite);
     
     	if (game.getKeyManager().isKeyPressed(KeyCode.SPACE) && 
     		// can only fire every 2 seconds
@@ -59,9 +57,23 @@ public class SpaceInvaders extends Game{
 								cannon.getBoundsInParent().getMinY(),
 								-1);
     		Fire.totalShotsFired++; // can remove later
-    	
 			addSprite(fire);
     	}
+    	/*
+    	if (!shotsFired.isEmpty()){
+    		for(Fire fire: shotsFired){
+    			for(Sprite sprite: sprites){
+    				if (fire.getBoundsInParent().intersects(sprite.getBoundsInParent())){
+    					// make some sort of animation
+    					temp.add(sprite);
+    					temp.add(fire);
+    				}
+    			}
+    		}
+    	}*/
+    	//Using a temp array to store which sprites to remove to avoid a concurrent
+    	//modification exception
+    	for(Sprite sprite: temp) removeSprite(sprite);
     }
     private void removeSprite(Sprite sprite){
     	System.out.println("removing:" + sprite.toString());
@@ -71,6 +83,9 @@ public class SpaceInvaders extends Game{
     public void addSprite(Sprite sprite){ 
     	this.getSceneNodes().getChildren().add(sprite);
     	sprites.add(sprite);
+    }
+    public void addBulletSprite(Fire fire){
+    	this.shotsFired.add(fire);
     }
     
     private void addAllEnemySprites(){
