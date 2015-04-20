@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 
 public abstract class Sprite extends Rectangle implements Updateable{
+	public int rank;
+	private boolean state;
+	
 	public Sprite(double xCoordinate, double yCoordinate, int width, int height){
 		super(xCoordinate, yCoordinate, width, height);
 	}

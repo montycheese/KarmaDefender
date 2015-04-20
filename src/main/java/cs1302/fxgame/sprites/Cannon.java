@@ -13,11 +13,11 @@ import javafx.scene.Scene;
 
 public class Cannon extends Sprite{
 	
+	public final int rank = 0;
 	private int width = 50;
 	private int height = 10;
 	private int velocity = 4;
 	private int xDir = 0;
-	private int fireDelay = 2; //two seconds for now
 	private boolean state = true;
 	
 	public Cannon(double xCoordinate, double yCoordinate){

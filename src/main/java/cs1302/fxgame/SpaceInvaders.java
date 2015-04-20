@@ -3,7 +3,7 @@ package cs1302.fxgame;
 import com.michaelcotterell.game.Game;
 import com.michaelcotterell.game.GameTime;
 import com.michaelcotterell.game.Updateable;
-import com.michaelcotterell.game.util.TimeSpan;
+import cs1302.fxgame.sprites.EnemySprite;
 import cs1302.fxgame.sprites.Sprite;
 import cs1302.fxgame.sprites.Cannon;
 import cs1302.fxgame.sprites.Fire;
@@ -28,11 +28,13 @@ public class SpaceInvaders extends Game{
     }};
     
     private Cannon cannon = new Cannon(320, 455);
+    private Score score = new Score(35, 25);
     
     public SpaceInvaders(Stage stage){
     	super(stage, "Space Invaders", 60, 640, 480);
-        getSceneNodes().getChildren().addAll(bg, cannon);
+        getSceneNodes().getChildren().addAll(bg, cannon, score);
     	sprites.add(cannon);
+    	addAllEnemySprites();
     	timeLastShotFired = System.nanoTime();
     }
     
@@ -48,10 +50,10 @@ public class SpaceInvaders extends Game{
     	for(Sprite sprite: temp) removeSprite(sprite);
     
     	if (game.getKeyManager().isKeyPressed(KeyCode.SPACE) && 
-    		System.nanoTime() - this.timeLastShotFired > 2000000000L
+    		// can only fire every 2 seconds
+    		System.nanoTime() - this.timeLastShotFired > 1000000000L
     		)
     	{
-    		//System.out.println("seconds past" + (System.nanoTime() - this.timeLastShotFired));
     		this.timeLastShotFired = System.nanoTime();
     		Sprite fire = new Fire(cannon.getBoundsInParent().getMaxX()-(cannon.getWidth()/2), 
 								cannon.getBoundsInParent().getMinY(),
@@ -65,13 +67,27 @@ public class SpaceInvaders extends Game{
     	System.out.println("removing:" + sprite.toString());
     	sprites.remove(sprite);
     	this.getSceneNodes().getChildren().remove(sprite);
-    	
-    	
-    	
     }
     public void addSprite(Sprite sprite){ 
     	this.getSceneNodes().getChildren().add(sprite);
     	sprites.add(sprite);
+    }
+    
+    private void addAllEnemySprites(){
+    	EnemySprite[] listOfNodes = new EnemySprite[11];
+    	int xCoordinate = 50; int yCoordinate = 50;
+    	for (int i = 0; i < 5; i++){
+    		for(int j = 0; j < 11; j++){
+    			EnemySprite e = new EnemySprite(xCoordinate, yCoordinate);
+    			if(i==4) e.setAtRoot();
+    			if(i!=0) e.setLocationOfNextSprite(listOfNodes[j]);
+    			listOfNodes[j] = e;
+    			addSprite(e);
+    			xCoordinate += e.getWidth() + 15;
+    		}
+    		yCoordinate += listOfNodes[listOfNodes.length-1].getHeight() + 10;
+    		xCoordinate = 50;
+    	}
     }
  
 }
