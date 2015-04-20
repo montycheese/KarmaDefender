@@ -84,9 +84,9 @@ public class SpaceInvaders extends Game{
     	this.getSceneNodes().getChildren().add(sprite);
     	sprites.add(sprite);
     }
-    public void addBulletSprite(Fire fire){
+    /* public void addBulletSprite(Fire fire){
     	this.shotsFired.add(fire);
-    }
+	}*/
     
     private void addAllEnemySprites(){
     	EnemySprite[] listOfNodes = new EnemySprite[11];

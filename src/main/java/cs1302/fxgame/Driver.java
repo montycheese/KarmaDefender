@@ -9,7 +9,8 @@ public class Driver extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception { 
     	//Game game = new TestGame(primaryStage);
-    	Game game = new SpaceInvaders(primaryStage);
+    	//Game game = new SpaceInvaders(primaryStage);
+	Game game = new SpaceInvadersTemp(primaryStage);
         primaryStage.setTitle(game.getTitle());
         primaryStage.setScene(game.getScene());
         primaryStage.show();
