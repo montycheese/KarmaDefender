@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.lang.System;
 
@@ -24,6 +25,7 @@ public class SpaceInvadersTemp extends Game{
     private ArrayList<Sprite> sprites = new ArrayList<Sprite>();
     private ArrayList<Fire> shotsFired = new ArrayList<Fire>();
     private long timeLastShotFired;
+    private boolean godMode = true;
 
     // rectangle to hold the background
     private Rectangle bg = new Rectangle(0, 0, 640, 480) {{ 
@@ -45,23 +47,30 @@ public class SpaceInvadersTemp extends Game{
     public void update(Game game, GameTime gameTime){
 	
     	ArrayList<Sprite> temp = new ArrayList<Sprite>();
-	ArrayList<Fire> tempFire = new ArrayList<Fire>();
-	ArrayList<EnemySprite> tempEnemy = new ArrayList<EnemySprite>();
+    	ArrayList<Fire> tempFire = new ArrayList<Fire>();
+    	ArrayList<EnemySprite> tempEnemy = new ArrayList<EnemySprite>();
+    	
     	for(Sprite sprite: sprites){
     		sprite.update(game, gameTime);
     		if (!sprite.getState()) temp.add(sprite);
     	}
-	for(ArrayList<EnemySprite> enemyLists: enemySprites){
-	    if (enemyLists != null){
-		for(EnemySprite enemy: enemyLists){
-		    enemy.update(game, gameTime);
-		}
-	    }
-	}
-	for(Fire fire: shotsFired){
-	    fire.update(game, gameTime);
-	    if(!fire.getState()) tempFire.add(fire);
-	}
+    	setRootShooters();
+    	for(ArrayList<EnemySprite> enemyLists: enemySprites){
+    		if (enemyLists != null){
+    			for(EnemySprite enemy: enemyLists){
+    				if(enemy.isAtRoot() && enemy.canFire()){
+    					addSprite(new Fire(enemy.getBoundsInParent().getMaxX()-(EnemySprite.WIDTH/2), 
+								enemy.getBoundsInParent().getMaxY(),
+								1), shotsFired);
+    				}
+    				enemy.update(game, gameTime);
+    			}
+    		}
+    	}
+    	for(Fire fire: shotsFired){
+    		fire.update(game, gameTime);
+    		if(!fire.getState()) tempFire.add(fire);
+    	}
     
     	if (game.getKeyManager().isKeyPressed(KeyCode.SPACE) && 
     		// can only fire every 2 seconds
@@ -73,9 +82,6 @@ public class SpaceInvadersTemp extends Game{
 								cannon.getBoundsInParent().getMinY()-50,
 				   -1), shotsFired);
     		Fire.totalShotsFired++; // can remove later
-		//this.getSceneNodes().getChildren().add(fire);
-		//shotsFired.add(fire);
-		//addSprite(fire);
     	}
     	
     	if (!shotsFired.isEmpty()){
@@ -88,32 +94,50 @@ public class SpaceInvadersTemp extends Game{
     				}
 				
     			}
-			for(ArrayList<EnemySprite> enemyLists: enemySprites){
-			    if(enemyLists!=null){
-				for(EnemySprite enemy: enemyLists){
-				    if(fire.getBoundsInParent().intersects(enemy.getBoundsInParent())){
-					tempEnemy.add(enemy);
-					tempFire.add(fire);
-					//add method to decrease # of enemies left
-				    }
-				}
-			    }
-			}		      
+    			for(ArrayList<EnemySprite> enemyLists: enemySprites){
+    				if(enemyLists!=null){
+    					for(EnemySprite enemy: enemyLists){
+    						if(fire.getBoundsInParent().intersects(enemy.getBoundsInParent())){
+    							tempEnemy.add(enemy);
+    							tempFire.add(fire);
+    							//add method to decrease # of enemies left
+    						}
+    					}
+    				}
+    			}		      
     		}
     	}
     	//Using a temp array to store which sprites to remove to avoid a concurrent
     	//modification exception
-    	for(Sprite sprite: temp) removeSprite(sprite, sprites);
-	for(Fire fire: tempFire){
-	    removeSprite(fire, shotsFired);
-	}
-	for(EnemySprite enemy: tempEnemy){
-	    for(ArrayList<EnemySprite> enemyLists: enemySprites){
-		if(enemyLists!=null && enemyLists.contains(enemy)){
-		    removeSprite(enemy, enemyLists);
-		}
-	    }
-	}
+    	if(!godMode){
+    		for(Sprite sprite: temp) 
+    			removeSprite(sprite, sprites);
+    	}
+    	for(Fire fire: tempFire){
+    		removeSprite(fire, shotsFired);
+    	}
+    	for(EnemySprite enemy: tempEnemy){
+    		for(ArrayList<EnemySprite> enemyLists: enemySprites){
+    			if(enemyLists!=null && enemyLists.contains(enemy)){
+    				removeSprite(enemy, enemyLists);
+    				if(enemyLists.isEmpty()){
+    					enemyLists = null;
+    				}
+    			}
+    		}
+    	}
+    }
+    
+    private void setRootShooters(){
+    	for(ArrayList<EnemySprite> enemyLists: enemySprites){
+    		if(enemyLists == null) continue;
+    		else if(enemyLists.isEmpty()){
+    			enemyLists = null;
+    		}
+    		else{
+    			enemyLists.get(enemyLists.size()-1).setAtRoot();
+    		}
+    	}
     }
     
     private <T extends Sprite> void removeSprite(T sprite, ArrayList<T> list){
@@ -128,18 +152,18 @@ public class SpaceInvadersTemp extends Game{
     }
     
     private void addAllEnemySprites(){
-	int xCoordinate = 50; int yCoordinate = 50;
-	for(int i = 0; i < 5; i++){
-	    ArrayList<EnemySprite> enemies = new ArrayList<>();
-	    for(int j = 0; j < 11; j++){
-		EnemySprite e = new EnemySprite(xCoordinate, yCoordinate);
-		addSprite(e, enemies);
-		xCoordinate += e.getWidth() + 15; 
-	    }
-	    enemySprites[i] = enemies;
-	    yCoordinate += 50; // can change later
-	    xCoordinate = 50;
-	    
-	}
+    	int xCoordinate = 50; int yCoordinate = 50;
+    	for(int i = 0; i < 11; i++){
+    		ArrayList<EnemySprite> enemies = new ArrayList<>();
+    		for(int j = 0; j < 5; j++){
+    			EnemySprite e = new EnemySprite(xCoordinate, yCoordinate);
+    			if(j == 4) e.setAtRoot(); // the enemy is at the bottom and can shoot
+    			addSprite(e, enemies);
+    			yCoordinate += 50; 
+    		}
+    		enemySprites[i] = enemies;
+    		xCoordinate += EnemySprite.WIDTH + 15;
+    		yCoordinate = 50; // can change later
+    	}
     }
 }

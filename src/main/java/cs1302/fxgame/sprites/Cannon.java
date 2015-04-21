@@ -18,11 +18,13 @@ public class Cannon extends Sprite{
 	private int height = 10;
 	private int velocity = 4;
 	private int xDir = 0;
+	private int livesRemaining;
 	private boolean state = true;
 	
 	public Cannon(double xCoordinate, double yCoordinate){
 		super(xCoordinate, yCoordinate, 50, 10);
 		setFill(Color.ANTIQUEWHITE);
+		this.livesRemaining = 3;
 	}
 	
 	@Override

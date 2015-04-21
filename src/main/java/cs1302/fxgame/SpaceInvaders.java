@@ -95,7 +95,7 @@ public class SpaceInvaders extends Game{
     		for(int j = 0; j < 11; j++){
     			EnemySprite e = new EnemySprite(xCoordinate, yCoordinate);
     			if(i==4) e.setAtRoot();
-    			if(i!=0) e.setLocationOfNextSprite(listOfNodes[j]);
+    			//if(i!=0) e.setLocationOfNextSprite(listOfNodes[j]);
     			listOfNodes[j] = e;
     			addSprite(e);
     			xCoordinate += e.getWidth() + 15;

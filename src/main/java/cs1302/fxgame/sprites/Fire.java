@@ -14,7 +14,7 @@ import javafx.scene.Scene;
 public class Fire extends Sprite{
 	
 	public static int totalShotsFired = 0;
-	private int velocity = 4;
+	private int velocity = 3;
 	private int yDir;
 	private String name = "Fire";
 	private boolean state = true; // the state variable represents whether or not the bullet
@@ -24,7 +24,7 @@ public class Fire extends Sprite{
 	public Fire(double xCoordinate, double yCoordinate, int yDir){
 		super(xCoordinate, yCoordinate, 5, 20);
 		this.yDir = yDir;
-		setFill(Color.ANTIQUEWHITE);
+		setFill(Color.LIGHTGREEN);
 	}
 	
 	@Override
