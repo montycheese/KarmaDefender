@@ -21,6 +21,7 @@ public class Shield extends Sprite{
 	
 	public Shield(double xCoordinate, double yCoordinate, int width, int height){
 		super(xCoordinate, yCoordinate, width, height);
+		setFill(Color.HOTPINK);
 		this.health = 10;
 	}
 	
@@ -28,6 +29,8 @@ public class Shield extends Sprite{
 	public void update(Game game, GameTime gameTime){
 		if(health <= 0) this.state = false;
 	}
+	
+	//public void update(SpaceInvadersTemp game, GameTime gameTime)
 	
 	@Override
 	public boolean getState(){

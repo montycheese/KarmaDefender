@@ -43,5 +43,11 @@ public class Cannon extends Sprite{
 		return this.state;
 	}
 	
+	public int getNumberOfLives(){
+		return this.livesRemaining;
+	}
 	
+	public void decNumberOfLives(){
+		this.livesRemaining--;
+	}
 }

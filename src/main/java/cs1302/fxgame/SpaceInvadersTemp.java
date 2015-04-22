@@ -7,6 +7,7 @@ import cs1302.fxgame.sprites.EnemySprite;
 import cs1302.fxgame.sprites.Sprite;
 import cs1302.fxgame.sprites.Cannon;
 import cs1302.fxgame.sprites.Fire;
+import cs1302.fxgame.sprites.Shield;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
@@ -24,6 +25,7 @@ public class SpaceInvadersTemp extends Game{
     private ArrayList<EnemySprite>[] enemySprites = new ArrayList[11];
     private ArrayList<Sprite> sprites = new ArrayList<Sprite>();
     private ArrayList<Fire> shotsFired = new ArrayList<Fire>();
+    private ArrayList<Shield> shields = new ArrayList<Shield>();
     private long timeLastShotFired;
     private boolean godMode = true;
 
@@ -40,6 +42,7 @@ public class SpaceInvadersTemp extends Game{
         getSceneNodes().getChildren().addAll(bg, cannon, score);
     	sprites.add(cannon);
     	addAllEnemySprites();
+    	addAllShields();
     	timeLastShotFired = System.nanoTime();
     }
     
@@ -49,6 +52,7 @@ public class SpaceInvadersTemp extends Game{
     	ArrayList<Sprite> temp = new ArrayList<Sprite>();
     	ArrayList<Fire> tempFire = new ArrayList<Fire>();
     	ArrayList<EnemySprite> tempEnemy = new ArrayList<EnemySprite>();
+    	
     	
     	for(Sprite sprite: sprites){
     		sprite.update(game, gameTime);
@@ -164,6 +168,14 @@ public class SpaceInvadersTemp extends Game{
     		enemySprites[i] = enemies;
     		xCoordinate += EnemySprite.WIDTH + 15;
     		yCoordinate = 50; // can change later
+    	}
+    }
+    
+    private void addAllShields(){
+    	int xCoordinate = 50; int yCoordinate = 360;
+    	for(int i = 0; i < 6; i++){
+    		addSprite(new Shield(xCoordinate, yCoordinate, Shield.WIDTH, Shield.HEIGHT), shields);
+    		xCoordinate += Shield.WIDTH * 2;
     	}
     }
 }
