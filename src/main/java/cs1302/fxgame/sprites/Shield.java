@@ -30,6 +30,10 @@ public class Shield extends Sprite{
 		if(health <= 0) this.state = false;
 	}
 	
+	public void decrementHealth(){
+		this.health--;
+	}
+	
 	//public void update(SpaceInvadersTemp game, GameTime gameTime)
 	
 	@Override

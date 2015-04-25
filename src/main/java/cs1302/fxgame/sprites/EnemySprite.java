@@ -63,7 +63,7 @@ public class EnemySprite extends Sprite{
 	}
 	public boolean canFire(){
 		Random rand = new Random();
-		int r = rand.nextInt(100);
+		int r = rand.nextInt(500);
 		if(r == 0 && 
 				(System.nanoTime() - this.timeLastShotFired > 2000000000L)
 			) 

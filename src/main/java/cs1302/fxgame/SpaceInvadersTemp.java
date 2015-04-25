@@ -14,9 +14,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.scene.layout.StackPane;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Iterator;
 import java.lang.System;
 
 
@@ -26,8 +28,9 @@ public class SpaceInvadersTemp extends Game{
     private ArrayList<Sprite> sprites = new ArrayList<Sprite>();
     private ArrayList<Fire> shotsFired = new ArrayList<Fire>();
     private ArrayList<Shield> shields = new ArrayList<Shield>();
+    
     private long timeLastShotFired;
-    private boolean godMode = true;
+    //private boolean godMode = true;
 
     // rectangle to hold the background
     private Rectangle bg = new Rectangle(0, 0, 640, 480) {{ 
@@ -36,10 +39,16 @@ public class SpaceInvadersTemp extends Game{
     
     private Cannon cannon = new Cannon(320, 455);
     private Score score = new Score(35, 25);
+    private Text lives = new Text() {{
+        setTranslateX(560);
+        setTranslateY(20);
+        setFill(Color.ANTIQUEWHITE);
+        setText("Lives ");
+   }};
     
     public SpaceInvadersTemp(Stage stage){
     	super(stage, "Space Invaders", 60, 640, 480);
-        getSceneNodes().getChildren().addAll(bg, cannon, score);
+        getSceneNodes().getChildren().addAll(bg, cannon, score, lives);
     	sprites.add(cannon);
     	addAllEnemySprites();
     	addAllShields();
@@ -48,20 +57,18 @@ public class SpaceInvadersTemp extends Game{
     
     @Override
     public void update(Game game, GameTime gameTime){
-	
-    	ArrayList<Sprite> temp = new ArrayList<Sprite>();
-    	ArrayList<Fire> tempFire = new ArrayList<Fire>();
-    	ArrayList<EnemySprite> tempEnemy = new ArrayList<EnemySprite>();
     	
-    	
-    	for(Sprite sprite: sprites){
-    		sprite.update(game, gameTime);
-    		if (!sprite.getState()) temp.add(sprite);
+    	if(!shields.isEmpty()){
+    		update(shields, game, gameTime);
     	}
-    	setRootShooters();
+    	if(!sprites.isEmpty()){
+    		update(sprites, game, gameTime);
+    	}
+    	setRootShooters(); // make only the bottom most sprite in each row shoot
     	for(ArrayList<EnemySprite> enemyLists: enemySprites){
     		if (enemyLists != null){
-    			for(EnemySprite enemy: enemyLists){
+    			for(Iterator<EnemySprite> it = enemyLists.iterator(); it.hasNext();){
+    				EnemySprite enemy = it.next();
     				if(enemy.isAtRoot() && enemy.canFire()){
     					addSprite(new Fire(enemy.getBoundsInParent().getMaxX()-(EnemySprite.WIDTH/2), 
 								enemy.getBoundsInParent().getMaxY(),
@@ -71,11 +78,10 @@ public class SpaceInvadersTemp extends Game{
     			}
     		}
     	}
-    	for(Fire fire: shotsFired){
-    		fire.update(game, gameTime);
-    		if(!fire.getState()) tempFire.add(fire);
+    	
+    	if (!shotsFired.isEmpty()){
+    		update(shotsFired, game, gameTime);
     	}
-    
     	if (game.getKeyManager().isKeyPressed(KeyCode.SPACE) && 
     		// can only fire every 2 seconds
     		System.nanoTime() - this.timeLastShotFired > 1000000000L
@@ -83,53 +89,59 @@ public class SpaceInvadersTemp extends Game{
     	{
     		this.timeLastShotFired = System.nanoTime();
     		addSprite(new Fire(cannon.getBoundsInParent().getMaxX()-(cannon.getWidth()/2), 
-								cannon.getBoundsInParent().getMinY()-50,
+								cannon.getBoundsInParent().getMinY()-40,
 				   -1), shotsFired);
     		Fire.totalShotsFired++; // can remove later
     	}
     	
     	if (!shotsFired.isEmpty()){
-    		for(Fire fire: shotsFired){
-    			for(Sprite sprite: sprites){
+    		for(Iterator<Fire> itFire = shotsFired.iterator(); itFire.hasNext();){
+    			Fire fire = itFire.next();
+    			for(Iterator<Sprite> itSprite = sprites.iterator(); itSprite.hasNext();){
+    				Sprite sprite = itSprite.next();
     				if (fire.getBoundsInParent().intersects(sprite.getBoundsInParent())){
     					// make some sort of animation
-    					temp.add(sprite);
-    					tempFire.add(fire);
+    					itSprite.remove();
+    					itFire.remove();
+    					this.getSceneNodes().getChildren().removeAll(fire, sprite);
     				}
 				
     			}
     			for(ArrayList<EnemySprite> enemyLists: enemySprites){
     				if(enemyLists!=null){
-    					for(EnemySprite enemy: enemyLists){
+    					for(Iterator<EnemySprite> itEnemy = enemyLists.iterator(); itEnemy.hasNext();){
+    						EnemySprite enemy = itEnemy.next();
     						if(fire.getBoundsInParent().intersects(enemy.getBoundsInParent())){
-    							tempEnemy.add(enemy);
-    							tempFire.add(fire);
+    							itEnemy.remove();
+    							itFire.remove();
+    							this.getSceneNodes().getChildren().removeAll(fire, enemy);
     							//add method to decrease # of enemies left
     						}
     					}
     				}
-    			}		      
-    		}
-    	}
-    	//Using a temp array to store which sprites to remove to avoid a concurrent
-    	//modification exception
-    	if(!godMode){
-    		for(Sprite sprite: temp) 
-    			removeSprite(sprite, sprites);
-    	}
-    	for(Fire fire: tempFire){
-    		removeSprite(fire, shotsFired);
-    	}
-    	for(EnemySprite enemy: tempEnemy){
-    		for(ArrayList<EnemySprite> enemyLists: enemySprites){
-    			if(enemyLists!=null && enemyLists.contains(enemy)){
-    				removeSprite(enemy, enemyLists);
-    				if(enemyLists.isEmpty()){
-    					enemyLists = null;
+    			}		
+    			for(Iterator<Shield> itShield = shields.iterator(); itShield.hasNext();){
+    				Shield shield = itShield.next();
+    				if (fire.getBoundsInParent().intersects(shield.getBoundsInParent())){
+    					// make some sort of animation
+    					shield.decrementHealth();
+    					itFire.remove();
+    					this.getSceneNodes().getChildren().remove(fire);
     				}
     			}
     		}
     	}
+    }
+    
+    private <T extends Sprite> void update(ArrayList<T> list, Game game, GameTime gameTime){
+    	for(Iterator<T> it = list.iterator(); it.hasNext();){
+			T t = it.next();
+			t.update(game, gameTime);
+			if (!t.getState()){
+				it.remove();
+				getSceneNodes().getChildren().remove(t);
+			}
+		}
     }
     
     private void setRootShooters(){
