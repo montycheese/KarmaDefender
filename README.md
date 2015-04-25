@@ -4,6 +4,11 @@ This repository contains skeleton code for a project or assignment in Michael E.
 Cotterell's CSCI 1302 class at the University of Georgia. Please read the 
 entirety of this file before beginning your project.
 
+
+ATTRIBUTIONS: http://gooperblooper22.deviantart.com/art/Space-Invaders-Sprite-Sheet-135338373 for enemy sprites
+https://soundcloud.com/groups/chiptune-8-bit-video-game-music for bg music Creative 
+Commons Attribution Liscence
+laser sound http://freesound.org/people/timgormly/sounds/170161/
 **This project is due on Wednesday 2014-04-29 @ 11:55 PM. Since this is
 the day before the Final Exam, there will be no extensions for this
 project.**

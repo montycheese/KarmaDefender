@@ -2,6 +2,7 @@ package cs1302.fxgame.sprites;
 
 import com.michaelcotterell.game.Game;
 import com.michaelcotterell.game.GameTime;
+import com.michaelcotterell.game.util.TimeSpan;
 import com.michaelcotterell.game.Updateable;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
@@ -19,9 +20,10 @@ public class EnemySprite extends Sprite{
 	public static final int WIDTH = 20;
 	public static final int HEIGHT = 20;
 	public int rank = 1;
-	private int velocity = 1;
+	private int velocity = 5;
 	private int xDir = 1;
 	private int distanceTraveled = 0;
+	private double milliseconds = 0;
 	private long timeLastShotFired;
 	//tracks whether or not the ship is the bottommost in its respective column, allowing it to shoot
 	private boolean isAtRoot = false; 
@@ -35,21 +37,33 @@ public class EnemySprite extends Sprite{
 	
 	@Override
 	public void update(Game game, GameTime gameTime){
-		int dx = velocity * xDir;
-		if(this.distanceTraveled >= Math.round(game.getSceneBounds().getWidth()/4)){
-			int dy = velocity;
-			changeXDirection();
-			setTranslateY(translateYProperty().add(velocity).get());
-			this.distanceTraveled = 0;
-		}
-		else{
-			setTranslateX(translateXProperty().add(dx).get());
-			this.distanceTraveled += Math.abs(dx);
+		if(this.milliseconds == 0 ) this.milliseconds = gameTime.getTotalGameTime().getTotalMilliseconds();
+		//System.out.println("Seconds elapsed " + gameTime.getTotalGameTime().getTotalMilliseconds());
+		if(gameTime.getTotalGameTime().getTotalMilliseconds() - this.milliseconds > 500){
+			int dx = velocity * xDir;
+			if(this.distanceTraveled >= Math.round(game.getSceneBounds().getWidth()/4)){
+				float dy = velocity * 1.5f;
+				changeXDirection();
+				setTranslateY(translateYProperty().add(velocity).get());
+				this.distanceTraveled = 0;
+			}
+			else{
+				setTranslateX(translateXProperty().add(dx).get());
+				this.distanceTraveled += Math.abs(dx);
+			}
+			this.milliseconds = gameTime.getTotalGameTime().getTotalMilliseconds();
 		}
 	}
 	@Override
 	public boolean getState(){
 		return this.state;
+	}
+	
+	public void setVelocity(int velocity){
+		this.velocity = velocity;
+	}
+	public int getRank(){
+		return this.rank;
 	}
 
 	public void changeXDirection(){

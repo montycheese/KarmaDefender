@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
-import cs1302.fxgame.sprites.Sprite;
+import cs1302.fxgame.sprites.EnemySprite;
 
 public class Score extends Text{
 	
@@ -16,8 +16,8 @@ public class Score extends Text{
 		setFill(Color.GREEN);
 	}
 	
-	public void increaseScore(Sprite sprite){
-		this.score += this.calculateScore(sprite);
+	public void increaseScore(EnemySprite enemy){
+		this.score += this.calculateScore(enemy);
 		setText("Score: " + Integer.toString(score));
 	}
 	
@@ -26,9 +26,11 @@ public class Score extends Text{
 		setText("Score: 0");
 	}
 	
-	private int calculateScore(Sprite sprite){
-		//if (sprite.rank == 1) 
-			return 100;
-		//.. add more later
+	private int calculateScore(EnemySprite enemy){
+		return enemy.getRank() * 10;
 	}
+	
+	/*public int calculateFinalScore(int numLives){
+		return this.score * numLives;
+	}*/
 }

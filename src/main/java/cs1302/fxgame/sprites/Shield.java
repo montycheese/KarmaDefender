@@ -13,20 +13,32 @@ import javafx.scene.Scene;
 
 public class Shield extends Sprite{
 	
-	public static final int WIDTH = 50;
-	public static final int HEIGHT = 50;
+	public static final int WIDTH = 30;
+	public static final int HEIGHT = 30;
 	public int rank = 0;
+	private Color color;
 	private int health;
 	private boolean state = true;
 	
 	public Shield(double xCoordinate, double yCoordinate, int width, int height){
 		super(xCoordinate, yCoordinate, width, height);
-		setFill(Color.HOTPINK);
+		this.color = Color.DARKGREEN;
+		setFill(this.color);
 		this.health = 10;
 	}
 	
 	@Override
 	public void update(Game game, GameTime gameTime){
+		if(health == 9) color = Color.DARKOLIVEGREEN;
+		else if(health == 8) color = Color.DARKOLIVEGREEN.brighter();
+		else if(health == 7) color = Color.GREEN;
+		else if(health == 6) color = Color.GREEN.brighter();
+		else if(health == 5) color = Color.LIMEGREEN;
+		else if(health == 4) color = Color.LAWNGREEN;
+		else if(health == 3) color = Color.LIGHTGREEN;
+		else if(health == 2) color = Color.PALEGREEN;
+		else if(health == 1) color = Color.WHITE;
+		setFill(color);
 		if(health <= 0) this.state = false;
 	}
 	

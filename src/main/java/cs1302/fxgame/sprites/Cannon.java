@@ -14,8 +14,8 @@ import javafx.scene.Scene;
 public class Cannon extends Sprite{
 	
 	public final int rank = 0;
-	private int width = 50;
-	private int height = 10;
+	public static final int WIDTH = 50;
+	public static final int HEIGHT = 10;
 	private int velocity = 4;
 	private int xDir = 0;
 	private int livesRemaining;
@@ -47,7 +47,7 @@ public class Cannon extends Sprite{
 		return this.livesRemaining;
 	}
 	
-	public void decNumberOfLives(){
+	public void decrementNumberOfLives(){
 		this.livesRemaining--;
 	}
 }

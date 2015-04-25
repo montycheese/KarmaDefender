@@ -16,13 +16,12 @@ public class Fire extends Sprite{
 	public static int totalShotsFired = 0;
 	private int velocity = 3;
 	private int yDir;
-	private String name = "Fire";
 	private boolean state = true; // the state variable represents whether or not the bullet
 								 // continues to exist uninterrupted. i.e has not collided with anything
 								// nor has it gone off screen
 	
 	public Fire(double xCoordinate, double yCoordinate, int yDir){
-		super(xCoordinate, yCoordinate, 5, 20);
+		super(xCoordinate, yCoordinate, 2, 20);
 		this.yDir = yDir;
 		setFill(Color.LIGHTGREEN);
 	}
@@ -43,10 +42,6 @@ public class Fire extends Sprite{
 	}
 	public boolean getState(){
 		return this.state;
-	}
-	
-	public String toString(){
-		return this.name;
 	}
 	
 }
