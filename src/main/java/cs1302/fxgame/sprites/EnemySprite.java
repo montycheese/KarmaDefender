@@ -22,7 +22,10 @@ public class EnemySprite extends Sprite{
 	public int rank = 1;
 	private int velocity = 5;
 	private int xDir = 1;
+	//tracks how many pixels each enemy ship has moved
 	private int distanceTraveled = 0;
+	//tracks milliseconds since lastmovement, used to give a frame by frame movement style
+	// to the sprite
 	private double milliseconds = 0;
 	private long timeLastShotFired;
 	//tracks whether or not the ship is the bottommost in its respective column, allowing it to shoot
@@ -32,8 +35,8 @@ public class EnemySprite extends Sprite{
 	/**
 	 * Constructs an object of the enemy sprite object.
 	 * 
-	 * @param double xCoordinate the starting x coordinate of the cannon object.
-	 * @param double yCoordinate the starting y coordinate of the cannon object.
+	 * @param xCoordinate the starting x coordinate of the cannon object.
+	 * @param yCoordinate the starting y coordinate of the cannon object.
 	 */
 	public EnemySprite(double xCoordinate, double yCoordinate){
 		super(xCoordinate, yCoordinate, 20, 20);
@@ -67,6 +70,8 @@ public class EnemySprite extends Sprite{
 	
 	/**
 	 * Sets the magnitude of the velocity of the sprite
+	 * 
+	 * @param velocity the magnitude of the velocity to set the sprite at.
 	 */
 	public void setVelocity(int velocity){
 		this.velocity = velocity;

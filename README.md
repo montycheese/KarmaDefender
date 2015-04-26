@@ -1,14 +1,56 @@
 # CSCI 1302 - FXGame (cs1302-fxgame)
 
+PROJECT SUBMISSION
+
+AUTHOR: Montana Wong (948)
+
+No Extra Credit
+
+GAMEPLAY INSTRUCTIONS
+Defend the internet from down votes.
+
+Destroy all enemy space ships before they reach the bottom the survive.
+Game ends if you run out of lives or if the enemy space ships reach the bottom
+of the map.
+To earn points you must shoot the enemy spaceships with your cannon.
+Reddit aliens are worth 10 points. Mystery Ships are worth 100 points.
+Mystery Ships randomly appear in roughly 20 second intervals, randomly from the left or right side.
+You can progress to higher levels by destroying all spaceships per level.
+Score transcends with levels, so it is possible to have an infinite score if one never
+stops playing.
+
+
+Controls: 
+Right Arrow Key: Move Right
+Left Arrow Key: Move Left
+Space Bar: Fire bullet
+
+
+ATTRIBUTIONS: 
+For picture of Mystery Space Ship [http://gooperblooper22.deviantart.com/art/Space-Invaders-Sprite-Sheet-135338373] 
+
+For in-game background music [https://soundcloud.com/groups/chiptune-8-bit-video-game-music] 
+
+For laser-sounds [http://freesound.org/people/timgormly/sounds/170161/]
+
+For Reddit Alien & upvote/downvote images [https://www.reddit.com]
+
+All borrowed items fall under Fair Use.
+
+***
+Copyright Disclaimer under section 107 of the Copyright Act 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+
+Fair use is a use permitted by copyright statute that might otherwise be infringing. 
+
+Non-profit, educational or personal use tips the balance in favor of fair use. 
+***
+
 This repository contains skeleton code for a project or assignment in Michael E. 
 Cotterell's CSCI 1302 class at the University of Georgia. Please read the 
 entirety of this file before beginning your project.
 
 
-ATTRIBUTIONS: http://gooperblooper22.deviantart.com/art/Space-Invaders-Sprite-Sheet-135338373 for enemy sprites
-https://soundcloud.com/groups/chiptune-8-bit-video-game-music for bg music Creative 
-Commons Attribution Liscence
-laser sound http://freesound.org/people/timgormly/sounds/170161/
+
 **This project is due on Wednesday 2014-04-29 @ 11:55 PM. Since this is
 the day before the Final Exam, there will be no extensions for this
 project.**

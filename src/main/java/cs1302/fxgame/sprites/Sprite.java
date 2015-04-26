@@ -18,10 +18,10 @@ public abstract class Sprite extends Rectangle implements Updateable{
 	/**
 	 * Constructs a new sprite object
 	 * 
-	 * @param double xCoordinate the starting x coordinate of the sprite object.
-	 * @param double yCoordinate the starting y coordinate of the sprite object.
-	 * @param int width the width of the object
-	 * @param int height the height of the object
+	 * @param xCoordinate the starting x coordinate of the sprite object.
+	 * @param yCoordinate the starting y coordinate of the sprite object.
+	 * @param width the width of the object
+	 * @param height the height of the object
 	 */
 	public Sprite(double xCoordinate, double yCoordinate, int width, int height){
 		super(xCoordinate, yCoordinate, width, height);

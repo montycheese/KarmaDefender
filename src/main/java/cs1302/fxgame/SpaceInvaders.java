@@ -72,10 +72,11 @@ public class SpaceInvaders extends Game{
    /**
     * Constructs the SpaceInvaders game object that creates the scene in which the game is
     * displayed and handeled.
-    *  @param Stage stage the stage object that holds the game
+    * 
+    *  @param stage the stage object that holds the game
     */
     public SpaceInvaders(Stage stage){
-    	super(stage, "Space Invaders", 60, 640, 480);
+    	super(stage, "Internet Defender", 60, 640, 480);
     	//setting the cannon's image
     	Image img = new Image(CANNON_SPRITE_PATH);
     	cannon.setFill(new ImagePattern(img, 0, 0, 1, 1, true));
@@ -158,6 +159,7 @@ public class SpaceInvaders extends Game{
     		}
     	}
     	
+    	//updats all fire objects in real time if there are any in the scene.
     	if (!shotsFired.isEmpty()){
     		update(shotsFired, game, gameTime);
     	}
@@ -252,6 +254,10 @@ public class SpaceInvaders extends Game{
     /**
      * Updates specific sprites and removes them from the scene and their containing list if
      * they are destroyed or moved off screen.
+     * 
+     * @param list the list containing the sprites to be updated
+     * @param game the game object
+     * @param gameTime the gametime object representing time information about each respective game.
      */
     private <T extends Sprite> void update(ArrayList<T> list, Game game, GameTime gameTime){
     	for(Iterator<T> it = list.iterator(); it.hasNext();){
@@ -282,8 +288,9 @@ public class SpaceInvaders extends Game{
     
     /**
      * Adds sprites to their respectie lists
-     * @param T sprite a sprite object
-     * @param ArrayList<T> list a list containing sprite objects of type T
+     * 
+     * @param sprite a sprite object
+     * @param list a list containing sprite objects of type T
      */
     private <T extends Sprite> void addSprite(T sprite, ArrayList<T> list){
 	this.getSceneNodes().getChildren().add(sprite);

@@ -24,9 +24,9 @@ public class Fire extends Sprite{
 	 * Constructs objects that represent both player and enemy fire. These are treated as vectors in
 	 * 2-D space
 	 * 
-	 * @param double xCoordinate the starting x coordinate of the fire object.
-	 * @param double yCoordinate the starting y coordinate of the fire object.
-	 * @param int yDir the y component of the direction vector.
+	 * @param xCoordinate the starting x coordinate of the fire object.
+	 * @param yCoordinate the starting y coordinate of the fire object.
+	 * @param yDir the y component of the direction vector.
 	 */
 	public Fire(double xCoordinate, double yCoordinate, int yDir){
 		super(xCoordinate, yCoordinate, 10, 20);

@@ -24,8 +24,8 @@ public class Cannon extends Sprite{
 	/**
 	 * Constructs the player's cannon object that is used to destory enemy sprites.
 	 * 
-	 * @param double xCoordinate the starting x coordinate of the cannon object.
-	 * @param double yCoordinate the starting y coordinate of the cannon object.
+	 * @param xCoordinate the starting x coordinate of the cannon object.
+	 * @param yCoordinate the starting y coordinate of the cannon object.
 	 */
 	public Cannon(double xCoordinate, double yCoordinate){
 		super(xCoordinate, yCoordinate, 50, 30);

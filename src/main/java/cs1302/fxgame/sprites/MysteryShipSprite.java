@@ -28,15 +28,15 @@ public class MysteryShipSprite extends EnemySprite{
 	/**
 	 * Constructs the random mystery ship object.
 	 * 
-	 * @param double xCoordinate the starting x coordinate of the mystery ship object.
-	 * @param double yCoordinate the starting y coordinate of the mystery ship object.
+	 * @param xCoordinate the starting x coordinate of the mystery ship object.
+	 * @param yCoordinate the starting y coordinate of the mystery ship object.
 	 */
 	public MysteryShipSprite(double xCoordinate, double yCoordinate){
 		super(xCoordinate, yCoordinate);
 		//super.setSize(WIDTH, HEIGHT);
 		if(xCoordinate <= 0) this.xDir = 1;
 		else this.xDir = -1;
-		setFill(Color.BLACK);
+		setFill(Color.GOLD);
 	}
 	
 	@Override

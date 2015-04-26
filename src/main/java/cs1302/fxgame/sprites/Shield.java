@@ -23,10 +23,10 @@ public class Shield extends Sprite{
 	/**
 	 * Constructs a shield object that can withstand fire damage.
 	 * 
-	 * @param double xCoordinate the starting x coordinate of the cannon object.
-	 * @param double yCoordinate the starting y coordinate of the cannon object.
-	 * @param int width the width of the shield
-	 * @param int height the height of the shield
+	 * @param xCoordinate the starting x coordinate of the cannon object.
+	 * @param yCoordinate the starting y coordinate of the cannon object.
+	 * @param width the width of the shield
+	 * @param height the height of the shield
 	 */
 	public Shield(double xCoordinate, double yCoordinate, int width, int height){
 		super(xCoordinate, yCoordinate, width, height);
