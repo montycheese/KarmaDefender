@@ -25,6 +25,12 @@ public class MysteryShipSprite extends EnemySprite{
 	private boolean state = true;
 	private int seconds = 0;
 	
+	/**
+	 * Constructs the random mystery ship object.
+	 * 
+	 * @param double xCoordinate the starting x coordinate of the mystery ship object.
+	 * @param double yCoordinate the starting y coordinate of the mystery ship object.
+	 */
 	public MysteryShipSprite(double xCoordinate, double yCoordinate){
 		super(xCoordinate, yCoordinate);
 		//super.setSize(WIDTH, HEIGHT);
@@ -49,6 +55,8 @@ public class MysteryShipSprite extends EnemySprite{
 	public boolean isAtRoot(){
 		return false;
 	}
+	
+	@Override
 	public int getRank(){
 		return this.rank;
 	}

@@ -15,14 +15,20 @@ public class Cannon extends Sprite{
 	
 	public final int rank = 0;
 	public static final int WIDTH = 50;
-	public static final int HEIGHT = 10;
-	private int velocity = 4;
+	public static final int HEIGHT = 30;
+	private int velocity = 2;
 	private int xDir = 0;
 	private int livesRemaining;
 	private boolean state = true;
 	
+	/**
+	 * Constructs the player's cannon object that is used to destory enemy sprites.
+	 * 
+	 * @param double xCoordinate the starting x coordinate of the cannon object.
+	 * @param double yCoordinate the starting y coordinate of the cannon object.
+	 */
 	public Cannon(double xCoordinate, double yCoordinate){
-		super(xCoordinate, yCoordinate, 50, 10);
+		super(xCoordinate, yCoordinate, 50, 30);
 		setFill(Color.ANTIQUEWHITE);
 		this.livesRemaining = 3;
 	}
@@ -39,14 +45,23 @@ public class Cannon extends Sprite{
 		
 	}
 	
+	@Override
 	public boolean getState(){
 		return this.state;
 	}
 	
+	/**
+	 * returns the number of lives remaining 
+	 * 
+	 * @return int number of lives remaining
+	 */
 	public int getNumberOfLives(){
 		return this.livesRemaining;
 	}
 	
+	/**
+	 * Decrements the number of lives remaining.
+	 */
 	public void decrementNumberOfLives(){
 		this.livesRemaining--;
 	}

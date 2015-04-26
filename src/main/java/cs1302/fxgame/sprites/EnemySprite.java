@@ -29,6 +29,12 @@ public class EnemySprite extends Sprite{
 	private boolean isAtRoot = false; 
 	private boolean state = true;
 	
+	/**
+	 * Constructs an object of the enemy sprite object.
+	 * 
+	 * @param double xCoordinate the starting x coordinate of the cannon object.
+	 * @param double yCoordinate the starting y coordinate of the cannon object.
+	 */
 	public EnemySprite(double xCoordinate, double yCoordinate){
 		super(xCoordinate, yCoordinate, 20, 20);
 		setFill(Color.ANTIQUEWHITE);
@@ -59,22 +65,51 @@ public class EnemySprite extends Sprite{
 		return this.state;
 	}
 	
+	/**
+	 * Sets the magnitude of the velocity of the sprite
+	 */
 	public void setVelocity(int velocity){
 		this.velocity = velocity;
 	}
+	
+	/**
+	 * returns the rank of the enemy sprite
+	 * 
+	 * @return int rank of the enemy sprite
+	 */
 	public int getRank(){
 		return this.rank;
 	}
 
+	/**
+	 * Changes the x direction of the sprite's movement vector.
+	 */
 	public void changeXDirection(){
 		this.xDir *= -1;
 	}
+	
+	/**
+	 * sets a sprite as the root ship
+	 */
 	public void setAtRoot(){
 		this.isAtRoot = true;
 	}
+	
+	/**
+	 * Returns a boolean value of whether or not the sprite is the root of its column.
+	 * 
+	 * @return boolean of whether or not the sprite is the root.
+	 */
 	public boolean isAtRoot(){
 		return this.isAtRoot;
 	}
+	
+	/**
+	 * Returns whether or not the sprite is able to fire. i.e. whether it is root and whether or not
+	 * it satisfies a pseudo random number
+	 * 
+	 * @return boolean whether the sprite can fire or not.
+	 */
 	public boolean canFire(){
 		Random rand = new Random();
 		int r = rand.nextInt(500);

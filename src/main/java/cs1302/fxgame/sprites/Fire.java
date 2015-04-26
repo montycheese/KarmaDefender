@@ -20,8 +20,16 @@ public class Fire extends Sprite{
 								 // continues to exist uninterrupted. i.e has not collided with anything
 								// nor has it gone off screen
 	
+	/**
+	 * Constructs objects that represent both player and enemy fire. These are treated as vectors in
+	 * 2-D space
+	 * 
+	 * @param double xCoordinate the starting x coordinate of the fire object.
+	 * @param double yCoordinate the starting y coordinate of the fire object.
+	 * @param int yDir the y component of the direction vector.
+	 */
 	public Fire(double xCoordinate, double yCoordinate, int yDir){
-		super(xCoordinate, yCoordinate, 2, 20);
+		super(xCoordinate, yCoordinate, 10, 20);
 		this.yDir = yDir;
 		setFill(Color.LIGHTGREEN);
 	}
@@ -40,6 +48,7 @@ public class Fire extends Sprite{
         }
 		
 	}
+	@Override
 	public boolean getState(){
 		return this.state;
 	}
