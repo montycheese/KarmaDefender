@@ -22,36 +22,45 @@ import javafx.scene.text.Text;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.Media;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Iterator;
 import java.util.Random;
+import java.io.File;
 import java.lang.System;
 
 
 
 public class SpaceInvaders extends Game{
 
+    //Declaring relative file paths
+    private final String MYSTERY_SPRITE_PATH = "resources/MysteryShipSprite.png";
+    private final String ENEMY_SPRITE_PATH = "resources/EnemySprite.png";
+    private final String BG_MUSIC_PATH = "resources/BG_Music.mp3";
+    private final String LASER_SOUND_PATH = "resources/laser.aiff";
+    private final String UPVOTE_LASER_PATH = "resources/upvotes.png";
+    private final String DOWNVOTE_LASER_PATH = "resources/downvotes.png";
+    private final String CANNON_SPRITE_PATH = "resources/Grumpy_Cat.png";
+    
 	//Declaring lists of specific game objects
     private ArrayList<EnemySprite>[] enemySprites = new ArrayList[11]; //spaceships and mystery ships
     private ArrayList<Sprite> sprites = new ArrayList<Sprite>(); //user's sprite, fire objects
     private ArrayList<Fire> shotsFired = new ArrayList<Fire>(); //bullets
     private ArrayList<Shield> shields = new ArrayList<Shield>(); //bunkers
-    
+   
     private int numEnemySprites = 55;
     private int level = 1;
     private long timeLastShotFired;
     private final long SHOT_DELAY = 1_000_000_000L; //Shot delay for the user's cannon
     private double secondsSinceLastMysteryShip = 0; 
-    //Declaring relative file paths
-    private final String MYSTERY_SPRITE_PATH = "/resources/MysteryShipSprite.png";
-    private final String ENEMY_SPRITE_PATH = "/resources/EnemySprite.png";
-    private final String BG_MUSIC_PATH = "/resources/BG_Music.mp3";
-    private final String LASER_SOUND_PATH = "/resources/laser.aiff";
-    private final String UPVOTE_LASER_PATH = "/resources/upvotes.png";
-    private final String DOWNVOTE_LASER_PATH = "/resources/downvotes.png";
-    private final String CANNON_SPRITE_PATH = "/resources/Grumpy_Cat.png";
+    private MediaPlayer bgMusicPlayer;
+    private Random r = new Random();
+    private final AudioClip laserSound = new AudioClip(new File(LASER_SOUND_PATH).toURI().toString());
+    private final Image UPVOTE_LASER_IMG =   new Image(new File(UPVOTE_LASER_PATH).toURI().toString());
+    private final Image DOWNVOTE_LASER_IMG = new Image(new File(DOWNVOTE_LASER_PATH).toURI().toString());
     
     // rectangle to hold the background
     private Rectangle bg = new Rectangle(0, 0, 640, 490) {{ 
@@ -76,18 +85,18 @@ public class SpaceInvaders extends Game{
     *  @param stage the stage object that holds the game
     */
     public SpaceInvaders(Stage stage){
-    	super(stage, "Internet Defender", 60, 640, 480);
+    	super(stage, "Karma Defender", 60, 640, 480);
     	//setting the cannon's image
-    	Image img = new Image(CANNON_SPRITE_PATH);
+    	Image img = new Image(new File(CANNON_SPRITE_PATH).toURI().toString());
     	cannon.setFill(new ImagePattern(img, 0, 0, 1, 1, true));
         getSceneNodes().getChildren().addAll(bg, cannon, score, lives);
     	addAllEnemySprites(); 
     	addAllShields();
     	timeLastShotFired = System.nanoTime();
     	//loop soundtrack
-    	AudioClip bgMusic = new AudioClip(getClass().getResource(BG_MUSIC_PATH).toString());
-    	bgMusic.play();
-    	bgMusic.setCycleCount(AudioClip.INDEFINITE);
+    	bgMusicPlayer = new MediaPlayer(new Media(new File(BG_MUSIC_PATH).toURI().toString()));
+    	bgMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+    	bgMusicPlayer.play();
     }
     
     @Override
@@ -103,8 +112,7 @@ public class SpaceInvaders extends Game{
     	
     	//determine when mysteryships appear
     	if(gameTime.getTotalGameTime().getTotalSeconds() - this.secondsSinceLastMysteryShip > 15){
-    		Image img = new Image(MYSTERY_SPRITE_PATH);
-    		Random r = new Random();
+    		Image img = new Image(new File(MYSTERY_SPRITE_PATH).toURI().toString());
     		//Psuedorandomly determine whether the ship comes from right or left
     		double xCoordinate = (r.nextInt(2) == 0) ? game.getSceneBounds().getMinX() : game.getSceneBounds().getMaxX();
     		MysteryShipSprite mysteryShip = new MysteryShipSprite(xCoordinate, 30);
@@ -120,14 +128,12 @@ public class SpaceInvaders extends Game{
     				//determine whether an enemy sprite shoots or not
     				if(enemy.isAtRoot() && enemy.canFire()){
     					//if can shoot, create new fire object and set an image to it
-    					Image img = new Image(DOWNVOTE_LASER_PATH);
     					Fire fire = new Fire(enemy.getBoundsInParent().getMaxX()-(EnemySprite.WIDTH/2), 
 								enemy.getBoundsInParent().getMaxY(),
 								1);
-    					fire.setFill(new ImagePattern(img, 0, 0, 1, 1, true));
+    					fire.setFill(new ImagePattern(DOWNVOTE_LASER_IMG, 0, 0, 1, 1, true));
     					addSprite(fire, shotsFired);
     					//create funny laser sound when a shot is fired
-    					AudioClip laserSound = new AudioClip(getClass().getResource(LASER_SOUND_PATH).toString());
     		    		laserSound.play();
     				}
     				//determine when to increase speed of enemy sprites
@@ -169,12 +175,10 @@ public class SpaceInvaders extends Game{
     		)
     	{
     		this.timeLastShotFired = System.nanoTime();
-    		Image img = new Image(UPVOTE_LASER_PATH);
 			Fire fire = new Fire(cannon.getBoundsInParent().getMaxX()-(cannon.getWidth()/2), 
 					cannon.getBoundsInParent().getMinY()-40, -1);
-			fire.setFill(new ImagePattern(img, 0, 0, 1, 1, true));
+			fire.setFill(new ImagePattern(UPVOTE_LASER_IMG, 0, 0, 1, 1, true));
 			addSprite(fire, shotsFired);
-    		AudioClip laserSound = new AudioClip(getClass().getResource(LASER_SOUND_PATH).toString());
     		laserSound.play();
     	}
     	
@@ -235,8 +239,16 @@ public class SpaceInvaders extends Game{
     	//stop the game loop
     	stop();
     	//enlarge the score and bring it to the center of frame.
+    	Text gameOver = new Text(){{
+    		setText("GAME OVER");
+    		setFont(new Font("Helvetica", 72));
+    		setFill(Color.GREEN);
+    		setTranslateX(150);
+    		setTranslateY(150);
+    	}};
+    	getSceneNodes().getChildren().add(gameOver);
     	score.setFont(new Font("Helvetica", 72));
-    	score.setTranslateX(160);
+    	score.setTranslateX(150);
     	score.setTranslateY(200);
     }
     
@@ -245,10 +257,15 @@ public class SpaceInvaders extends Game{
      * sprites and increments the level. 
      */
     private void proceedToNextLevel(){
+    	if(enemySprites[10] != null && !enemySprites[10].isEmpty()) 
+    		getSceneNodes().getChildren().removeAll(enemySprites[10]);
     	addAllEnemySprites();
     	this.numEnemySprites = 55;
     	this.level++;
-    	
+    	///bgMusic.stop();
+    	//bgMusic = new AudioClip(getClass().getResource(BG_MUSIC_PATH).toString());
+    	//bgMusic.play();
+    	//bgMusic.setCycleCount(AudioClip.INDEFINITE);
     }
     
     /**
@@ -302,7 +319,7 @@ public class SpaceInvaders extends Game{
      */
     private void addAllEnemySprites(){
     	int xCoordinate = 50; int yCoordinate = 50;
-    	Image img = new Image(ENEMY_SPRITE_PATH); //set enemysprites to image of reddit alien
+    	Image img = new Image(new File(ENEMY_SPRITE_PATH).toURI().toString()); //set enemysprites to image of reddit alien
     	for(int i = 0; i < enemySprites.length; i++){
     		ArrayList<EnemySprite> enemies = new ArrayList<>();
     		for(int j = 0; j < 5; j++){

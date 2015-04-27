@@ -2,12 +2,14 @@
 
 PROJECT SUBMISSION
 
+“Karma Defender”
+
 AUTHOR: Montana Wong (948)
 
 No Extra Credit
 
 GAMEPLAY INSTRUCTIONS
-Defend the internet from down votes.
+Defend yourself from down votes and achieve the highest karma possible.
 
 Destroy all enemy space ships before they reach the bottom the survive.
 Game ends if you run out of lives or if the enemy space ships reach the bottom

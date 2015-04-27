@@ -17,7 +17,7 @@ public class Score extends Text{
 	 * @param yCoordinate the starting y coordinate of the score object.
 	 */
 	public Score(double xCoordinate, double yCoordinate){
-		super(xCoordinate, yCoordinate, "Score: 0" );
+		super(xCoordinate, yCoordinate, "Karma: 0" );
 		setFont(new Font("Helvetica", 24));
 		setFill(Color.GREEN);
 	}
@@ -30,7 +30,7 @@ public class Score extends Text{
 	 */
 	public void increaseScore(EnemySprite enemy){
 		this.score += this.calculateScore(enemy);
-		setText("Score: " + Integer.toString(score));
+		setText("Karma: " + Integer.toString(score));
 	}
 	
 	/**
@@ -38,7 +38,7 @@ public class Score extends Text{
 	 */
 	public void resetScore(){
 		this.score = 0;
-		setText("Score: 0");
+		setText("Karma: 0");
 	}
 	
 	/**
