@@ -14,6 +14,8 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
+import javafx.scene.effect.Reflection;
+import javafx.scene.effect.Glow;
 import javafx.scene.input.KeyCode;
 import javafx.scene.Parent;
 import javafx.scene.Node;
@@ -52,6 +54,7 @@ public class SpaceInvaders extends Game{
     private ArrayList<Fire> shotsFired = new ArrayList<Fire>(); //bullets
     private ArrayList<Shield> shields =  new ArrayList<Shield>(); //bunkers
     private ArrayList<Node> introSpriteObjects = new ArrayList<>();
+    private ArrayList<TranslateTransition> animationSprites = new ArrayList<>();
    
     private boolean isIntro = true;
     private int numEnemySprites = 55;
@@ -59,9 +62,6 @@ public class SpaceInvaders extends Game{
     private long timeLastShotFired;
     private double secondsSinceLastMysteryShip = 0; 
     private Random r = new Random();
-    
-   // private TranslateTransition introAnimation = new TranslateTransition(Duration.seconds(30), introImage1); 
-    private ArrayList<TranslateTransition> animationSprites = new ArrayList<>();
     private Cannon cannon = new Cannon(320, 460);
     private Score score = new Score(35, 25);
    
@@ -77,10 +77,30 @@ public class SpaceInvaders extends Game{
     // declaring text nodes
     private Text intro = new Text(){{
     	setTranslateX(160);
-    	setTranslateY(200);
+    	setTranslateY(180);
     	setFill(Color.ANTIQUEWHITE);
-    	setFont(new Font("Helvetica", 30));
+    	setFont(new Font("Helvetica",30));
+    	setEffect(new Glow(1.0));
     	setText("   KARMA DEFENDER \n\n\nPRESS ENTER TO PLAY");
+    }};
+    private Text name = new Text(){{
+    	setTranslateX(380);
+    	setTranslateY(420);
+    	setFill(Color.ANTIQUEWHITE);
+    	setFont(new Font("Helvetica", 20));
+    	Reflection r = new Reflection();
+    	r.setFraction(0.7f);
+    	setEffect(r);
+    	setText("by Montana Wong");
+    }};
+    private Text controlScheme = new Text(){{
+    	setTranslateX(50);
+    	setTranslateY(390);
+    	setFill(Color.ANTIQUEWHITE);
+    	setFont(new Font("Helvetica", 20));
+    	setText("                 Controls\nMOVE RIGHT: Right Arrow Key\n" + 
+    			"MOVE LEFT:    Left Arrow Key\n" + 
+    			"SHOOT:           Space Bar");
     }};
     private Text lives = new Text() {{
         setTranslateX(520);
@@ -102,7 +122,7 @@ public class SpaceInvaders extends Game{
     */
     public SpaceInvaders(Stage stage){
     	super(stage, "Karma Defender", 60, 640, 480);
-    	getSceneNodes().getChildren().addAll(bg, intro);
+    	getSceneNodes().getChildren().addAll(bg, intro, name, controlScheme);
     	createAnimationObjects();
     	bgMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
     	bgMusicPlayer.play();
@@ -126,7 +146,7 @@ public class SpaceInvaders extends Game{
     	if(!sprites.isEmpty()){
     		update(sprites, game, gameTime);
     	}
-    	
+
     	//determine when mysteryships appear
     	if(gameTime.getTotalGameTime().getTotalSeconds() - this.secondsSinceLastMysteryShip > 15){
     		//Psuedorandomly determine whether the ship comes from right or left
@@ -255,7 +275,7 @@ public class SpaceInvaders extends Game{
 	    for(int i = 0; i < 480; i += 20){
 	    	EnemySprite enemySpriteImg = new EnemySprite(0, i);
 	    	enemySpriteImg.setFill(new ImagePattern(ENEMY_SPRITE_IMG, 0,0,1,1,true));
-	   	 	tt = new TranslateTransition(Duration.seconds(30), enemySpriteImg);
+	   	 	tt = new TranslateTransition(Duration.seconds(15), enemySpriteImg);
 	   	 	tt.setFromY(i);
 	   	 	tt.setToY(0);
 	 	   	tt.setFromX(0);
@@ -270,7 +290,7 @@ public class SpaceInvaders extends Game{
 	    for(int i = 0; i < 480; i += 20){
 	    	EnemySprite enemySpriteImg = new EnemySprite(0, i);
 	    	enemySpriteImg.setFill(new ImagePattern(ENEMY_SPRITE_IMG, 0,0,1,1,true));
-	   	 	tt = new TranslateTransition(Duration.seconds(30), enemySpriteImg);
+	   	 	tt = new TranslateTransition(Duration.seconds(15), enemySpriteImg);
 	   	 	tt.setFromY(i);
 	   	 	tt.setToY(0);
 	 	   	tt.setFromX(bg.getBoundsInParent().getMaxX()-20);
@@ -295,7 +315,7 @@ public class SpaceInvaders extends Game{
     	}
     	animationSprites.clear();
     	getSceneNodes().getChildren().removeAll(introSpriteObjects);
-    	getSceneNodes().getChildren().remove(intro);
+    	getSceneNodes().getChildren().removeAll(intro, name, controlScheme);
     	introSpriteObjects.clear();
     	cannon.setFill(new ImagePattern(CANNON_IMG, 0, 0, 1, 1, true));
         getSceneNodes().getChildren().addAll(cannon, score, lives);

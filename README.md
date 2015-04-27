@@ -6,7 +6,7 @@ PROJECT SUBMISSION
 
 AUTHOR: Montana Wong (948)
 
-No Extra Credit
+Animated Intro screen extra credit.
 
 GAMEPLAY INSTRUCTIONS
 Defend yourself from down votes and achieve the highest karma possible.
