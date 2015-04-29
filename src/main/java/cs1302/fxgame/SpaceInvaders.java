@@ -68,7 +68,7 @@ public class SpaceInvaders extends Game{
     private Score score = new Score(35, 25);
    
     private final long SHOT_DELAY = 1_000_000_000L; //Shot delay for the user's cannon
-    private final MediaPlayer bgMusicPlayer = new MediaPlayer(new Media(new File(BG_MUSIC_PATH).toURI().toString()));
+    private final MediaPlayer bgMusicPlayer;
     private final AudioClip laserSound =      new AudioClip(new File(LASER_SOUND_PATH).toURI().toString());
     private final Image CANNON_IMG =          new Image(new File(CANNON_SPRITE_PATH).toURI().toString());
     private final Image ENEMY_SPRITE_IMG =    new Image(new File(ENEMY_SPRITE_PATH).toURI().toString()); 
@@ -134,6 +134,7 @@ public class SpaceInvaders extends Game{
     	getSceneNodes().getChildren().addAll(bg, intro, name, controlScheme);
     	createAnimationObjects();
     	try{
+    		bgMusicPlayer = new MediaPlayer(new Media(new File(BG_MUSIC_PATH).toURI().toString()));
     		bgMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
     		bgMusicPlayer.play();
     	}
