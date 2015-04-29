@@ -56,6 +56,7 @@ public class SpaceInvaders extends Game{
     private ArrayList<Node> introSpriteObjects = new ArrayList<>();
     private ArrayList<TranslateTransition> animationSprites = new ArrayList<>();
    
+    //Declaring conditional variables for game logic
     private boolean isIntro = true;
     private int numEnemySprites = 55;
     private int level = 1;
@@ -109,6 +110,13 @@ public class SpaceInvaders extends Game{
         setFont(new Font("Helvetica", 24));
         setText("Lives: 3");
    }};
+	private Text gameOver = new Text(){{
+		setText("GAME OVER");
+		setFont(new Font("Helvetica", 72));
+		setFill(Color.GREEN);
+		setTranslateX(130);
+		setTranslateY(160);
+	}};
  //rectangle to hold the background
    private Rectangle bg = new Rectangle(0, 0, 640, 480) {{ 
        setFill(Color.BLACK); 
@@ -136,8 +144,6 @@ public class SpaceInvaders extends Game{
     		}
     		return;
     	}
-    	
-    	
     	//updating every sprite in game
     	cannon.update(game, gameTime);
     	if(!shields.isEmpty()){
@@ -323,7 +329,6 @@ public class SpaceInvaders extends Game{
     	addAllShields();
     	timeLastShotFired = System.nanoTime();
     	this.isIntro = false;
-    	
     }
     
     /**
@@ -334,16 +339,9 @@ public class SpaceInvaders extends Game{
     	//stop the game loop
     	stop();
     	//enlarge the score and bring it to the center of frame.
-    	Text gameOver = new Text(){{
-    		setText("GAME OVER");
-    		setFont(new Font("Helvetica", 72));
-    		setFill(Color.GREEN);
-    		setTranslateX(150);
-    		setTranslateY(150);
-    	}};
     	getSceneNodes().getChildren().add(gameOver);
     	score.setFont(new Font("Helvetica", 72));
-    	score.setTranslateX(150);
+    	score.setTranslateX(130);
     	score.setTranslateY(200);
     }
     
