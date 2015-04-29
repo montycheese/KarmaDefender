@@ -28,6 +28,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.Media;
+import javafx.scene.media.MediaException;
 import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -132,8 +133,14 @@ public class SpaceInvaders extends Game{
     	super(stage, "Karma Defender", 60, 640, 480);
     	getSceneNodes().getChildren().addAll(bg, intro, name, controlScheme);
     	createAnimationObjects();
-    	bgMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-    	bgMusicPlayer.play();
+    	try{
+    		bgMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+    		bgMusicPlayer.play();
+    	}
+    	catch(MediaException me){
+    		System.out.println("FX MediaPlayer does not work on Nike. Please run on local machine" + 
+    							" to hear background music");
+    	}
     }
     
     @Override
