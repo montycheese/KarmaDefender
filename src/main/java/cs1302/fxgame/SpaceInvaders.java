@@ -66,9 +66,9 @@ public class SpaceInvaders extends Game{
     private Random r = new Random();
     private Cannon cannon = new Cannon(320, 460);
     private Score score = new Score(35, 25);
+    private MediaPlayer bgMusicPlayer;
    
     private final long SHOT_DELAY = 1_000_000_000L; //Shot delay for the user's cannon
-    private final MediaPlayer bgMusicPlayer;
     private final AudioClip laserSound =      new AudioClip(new File(LASER_SOUND_PATH).toURI().toString());
     private final Image CANNON_IMG =          new Image(new File(CANNON_SPRITE_PATH).toURI().toString());
     private final Image ENEMY_SPRITE_IMG =    new Image(new File(ENEMY_SPRITE_PATH).toURI().toString()); 
@@ -139,7 +139,7 @@ public class SpaceInvaders extends Game{
     		bgMusicPlayer.play();
     	}
     	catch(MediaException me){
-    		System.out.println("FX MediaPlayer does not work on Nike. Please run on local machine" + 
+    		System.out.println("FX MediaPlayer does not work on Nike Server. Please run on local machine" + 
     							" to hear background music");
     	}
     }
@@ -286,6 +286,7 @@ public class SpaceInvaders extends Game{
      */
     private void createAnimationObjects(){ 
 	   	TranslateTransition tt; 
+	   	//populate screen with multiple animation objects going right
 	    for(int i = 0; i < 480; i += 20){
 	    	EnemySprite enemySpriteImg = new EnemySprite(0, i);
 	    	enemySpriteImg.setFill(new ImagePattern(ENEMY_SPRITE_IMG, 0,0,1,1,true));
@@ -301,6 +302,7 @@ public class SpaceInvaders extends Game{
 	   		animationSprites.add(tt);
 	   		getSceneNodes().getChildren().addAll(enemySpriteImg);	
 	    }
+		//populate screen with multiple animation objects going right
 	    for(int i = 0; i < 480; i += 20){
 	    	EnemySprite enemySpriteImg = new EnemySprite(0, i);
 	    	enemySpriteImg.setFill(new ImagePattern(ENEMY_SPRITE_IMG, 0,0,1,1,true));
